@@ -13,16 +13,14 @@ public class ObjectPooler<T> where T : MonoBehaviour
     public Transform PositionContainer { get; }
 
 
-    public ObjectPooler(T prefab, int quantity, Transform positionContainer)
+    public ObjectPooler(T prefab,Transform positionContainer)
     {
         this.Prefab = prefab;
         this.PositionContainer = positionContainer;
-
-        CreatePool(quantity);
     }
 
 
-    private void CreatePool(int quantity)
+    public void CreatePool(int quantity)
     {
         prefabPool = new List<T>();
 

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using System;
 
 
@@ -10,6 +11,10 @@ public class HealthSystem
     public event Action<int> OnHealthChanged;
     public event Action OnDie;
 
+    public HealthSystem(int restoredHealth)
+    {
+        maxHealth = restoredHealth;
+    }
 
     public void GetDamage(int damageAmount)
     {

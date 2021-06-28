@@ -7,20 +7,30 @@ using UnityEngine.Events;
 public  class Enemy : MonoBehaviour
 {
     [SerializeField] private int defaultDamageTap = 10;
-    [SerializeField] protected HealthSystem health;
-
+    [SerializeField] private int maxHealth;
     [SerializeField] private UnityEvent OnNullHealth;
+    [SerializeField] private UnityEvent OnHit;
 
+    private HealthSystem health;
 
     private void OnEnable()
     {
+        health = new HealthSystem(maxHealth);
         health.OnDie += Health_OnDie;
+        health.OnHealthChanged += Health_OnHealthChanged;
     }
+
+
     private void OnDisable()
     {
         health.OnDie -= Health_OnDie;
+        health.OnHealthChanged -= Health_OnHealthChanged;
     }
 
+    private void Health_OnHealthChanged(int obj)
+    {
+        OnHit?.Invoke();
+    }
  
     private void Health_OnDie()
     {
