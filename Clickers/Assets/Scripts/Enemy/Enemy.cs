@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,10 +9,14 @@ public  class Enemy : MonoBehaviour
 {
     [SerializeField] private int defaultDamageTap = 10;
     [SerializeField] private int maxHealth;
+
     [SerializeField] private UnityEvent OnNullHealth;
     [SerializeField] private UnityEvent OnHit;
 
     private HealthSystem health;
+
+    public static event Action OnDeactiveate;
+
 
     private void OnEnable()
     {
@@ -35,6 +40,7 @@ public  class Enemy : MonoBehaviour
     private void Health_OnDie()
     {
         OnNullHealth?.Invoke();
+        OnDeactiveate?.Invoke();
     }
 
 
