@@ -13,34 +13,34 @@ public  class Enemy : MonoBehaviour
     [SerializeField] private UnityEvent OnNullHealth;
     [SerializeField] private UnityEvent OnHit;
 
-    private HealthSystem health;
+    public HealthSystem health;
 
-    public static event Action OnDeactiveate;
+    public static event Action OnDeactivate;
 
 
     private void OnEnable()
     {
         health = new HealthSystem(maxHealth);
-        health.OnDie += Health_OnDie;
-        health.OnHealthChanged += Health_OnHealthChanged;
+        health.OnDie += EnemyDie;
+        health.OnHealthChanged += EnemyHealthChange;
     }
 
 
     private void OnDisable()
     {
-        health.OnDie -= Health_OnDie;
-        health.OnHealthChanged -= Health_OnHealthChanged;
+        health.OnDie -= EnemyDie;
+        health.OnHealthChanged -= EnemyHealthChange;
     }
 
-    private void Health_OnHealthChanged(int obj)
+    private void EnemyHealthChange(int obj)
     {
         OnHit?.Invoke();
     }
  
-    private void Health_OnDie()
+    public void EnemyDie()
     {
         OnNullHealth?.Invoke();
-        OnDeactiveate?.Invoke();
+        OnDeactivate?.Invoke();
     }
 
 

@@ -9,7 +9,7 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] private float spawnTime;
 
-    [Header("Spawn positions")] // v noviy class
+    [Header("Spawn positions")] 
     [SerializeField] private float minX;
     [SerializeField] private float maxX;
     [SerializeField] private float minZ;

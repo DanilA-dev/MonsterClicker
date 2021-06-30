@@ -6,6 +6,7 @@ using System;
 [Serializable]
 public class HealthSystem
 {
+
     [SerializeField] private int maxHealth;
 
     public event Action<int> OnHealthChanged;
