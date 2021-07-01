@@ -3,11 +3,10 @@ using UnityEngine.Events;
 using System;
 
 
-[Serializable]
 public class HealthSystem
 {
 
-    [SerializeField] private int maxHealth;
+    private int maxHealth;
 
     public event Action<int> OnHealthChanged;
     public event Action OnDie;
@@ -20,7 +19,6 @@ public class HealthSystem
     public void GetDamage(int damageAmount)
     {
         maxHealth -= damageAmount;
-        Debug.Log(maxHealth);
 
         if (maxHealth <= 0)
         {

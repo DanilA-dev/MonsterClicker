@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    [SerializeField] private float spawnTime;
+    [SerializeField] private bool AutoExpandable;
     [SerializeField] private int quantityInScene;
     [SerializeField] private Enemy prefab;
 
-    [SerializeField] private float spawnTime;
 
     [Header("Spawn positions")] 
     [SerializeField] private float minX;
@@ -22,8 +23,7 @@ public class EnemySpawner : MonoBehaviour
     private void Start()
     {
         spawnBase = GetComponentInParent<EnemySpawnerBase>();
-        enemyPooler = new ObjectPooler<Enemy>(prefab, this.transform);
-        enemyPooler.CreatePool(quantityInScene);
+        InitPooler();
         StartSpawn();
     }
 
@@ -42,6 +42,11 @@ public class EnemySpawner : MonoBehaviour
         StartSpawn();
     }
 
-   
+   private void InitPooler()
+    {
+        enemyPooler = new ObjectPooler<Enemy>(prefab, this.transform);
+        enemyPooler.AutoExpand = AutoExpandable;
+        enemyPooler.CreatePool(quantityInScene);
+    }
 
 }

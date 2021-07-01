@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 546b24b93be0d1347bebeabee86fc324, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreForKill: 10
   defaultDamageTap: 10
   maxHealth: 30
   OnNullHealth:

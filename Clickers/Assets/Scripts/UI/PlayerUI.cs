@@ -15,12 +15,14 @@ public class PlayerUI : MonoBehaviour
     private void OnEnable()
     {
         EnemySpawnerBase.OnEnemiesCountChanged += EnemySpawnerBase_OnEnemiesCountChanged;
+        ScoreSystem.OnScoreChanged += ScoreSystem_OnScoreChanged;
     }
 
 
     private void OnDisable()
     {
         EnemySpawnerBase.OnEnemiesCountChanged -= EnemySpawnerBase_OnEnemiesCountChanged;
+        ScoreSystem.OnScoreChanged -= ScoreSystem_OnScoreChanged;
     }
 
 
@@ -32,6 +34,10 @@ public class PlayerUI : MonoBehaviour
         }
     }
 
+    private void ScoreSystem_OnScoreChanged(int score)
+    {
+        scoreText.text = "Score : " + score; 
+    }
 
     private void EnemySpawnerBase_OnEnemiesCountChanged(int count)
     {
