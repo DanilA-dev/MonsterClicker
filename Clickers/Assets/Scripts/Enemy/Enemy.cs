@@ -5,51 +5,46 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Collider))]
-public  class Enemy : MonoBehaviour
+public  class Enemy : MonoBehaviour, IDestroyable
 {
     [Header("Enemy Settings")]
+    [SerializeField] private HealthSystem health;
     [SerializeField] private int scoreForKill;
     [SerializeField] private int defaultDamageTap = 10;
-    [SerializeField] private int maxHealth;
 
-    [SerializeField] private UnityEvent OnNullHealth;
-    [SerializeField] private UnityEvent OnHit;
+
     public static event Action OnDeactivate;
 
-    private HealthSystem health;
-
+    private event Action OnEnemyDie;
 
     private void OnEnable()
     {
-        health = new HealthSystem(maxHealth);
-        health.OnDie += EnemyDie;
-        health.OnHealthChanged += EnemyHealthChange;
+        OnEnemyDie += Destroy;
     }
-
 
     private void OnDisable()
     {
-        health.OnDie -= EnemyDie;
-        health.OnHealthChanged -= EnemyHealthChange;
+        OnEnemyDie -= Destroy;
     }
 
-    private void EnemyHealthChange(int obj)
+    private void Start()
     {
-        OnHit?.Invoke();
+        health.InitHealth();
     }
- 
-    public void EnemyDie()
-    {
-        OnNullHealth?.Invoke();
-        OnDeactivate?.Invoke();
-
-        ScoreSystem.AddScore(scoreForKill);
-    }
-
 
     private void OnMouseDown()
     {
-        health.GetDamage(defaultDamageTap);
+        health.GetDamage(defaultDamageTap, this, OnEnemyDie);
     }
 
+    public void Destroy()
+    {
+        health.Death(this);
+        ScoreSystem.AddScore(scoreForKill);
+        OnDeactivate?.Invoke();
+    }
+
+
+
 }
+

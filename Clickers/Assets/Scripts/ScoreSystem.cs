@@ -1,5 +1,5 @@
 using System;
-
+using UnityEngine;
 public static class ScoreSystem
 {
     private static int maxScore;

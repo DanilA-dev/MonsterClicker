@@ -1583,10 +1583,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bac5f18d6f8f834f8e023f28c98dce1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  borderTemp: 10
   cam: {fileID: 963194227}
-  boundsMax: {x: 0, y: 0}
-  boundsMin: {x: 0, y: 0}
+  borderTemp: 10
+  speed: 10
 --- !u!1 &1087436954
 GameObject:
   m_ObjectHideFlags: 0
