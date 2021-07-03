@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   maxBreakTime: 3
-  minX: -22.8
-  maxX: 22.8
-  minZ: -14.4
-  maxZ: 14.8
+  minX: -48.79
+  maxX: 5.8
+  minZ: 6.03
+  maxZ: 45.66

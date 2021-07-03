@@ -5,13 +5,15 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Collider))]
-public  class Enemy : MonoBehaviour, IDestroyable
+public  class Enemy : MonoBehaviour, IDestroyable, IClickable
 {
     [Header("Enemy Settings")]
     [SerializeField] private HealthSystem health;
     [SerializeField] private int scoreForKill;
     [SerializeField] private int defaultDamageTap = 10;
+    [SerializeField] private bool isClickable;
 
+    public bool IsClickable { get => isClickable; set => isClickable = value; }
 
     public static event Action OnDeactivate;
 
@@ -34,7 +36,7 @@ public  class Enemy : MonoBehaviour, IDestroyable
 
     private void OnMouseDown()
     {
-        health.GetDamage(defaultDamageTap, this, OnEnemyDie);
+        Click();
     }
 
     public void Destroy()
@@ -44,7 +46,12 @@ public  class Enemy : MonoBehaviour, IDestroyable
         OnDeactivate?.Invoke();
     }
 
+    public void Click()
+    {
+        if (!isClickable)
+            return;
 
-
+        health.GetDamage(defaultDamageTap, this, OnEnemyDie);
+    }
 }
 

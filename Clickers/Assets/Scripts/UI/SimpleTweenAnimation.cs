@@ -111,7 +111,7 @@ public class SimpleTweenAnimation
                   Vector3 startPos = t.localPosition;
                
                   var seq = DOTween.Sequence();
-                  seq.Append(t.DOLocalRotate(endVectorValue, duration).SetEase(ease));
+                  seq.Append(t.DOLocalRotate(endVectorValue, duration).SetEase(ease).From(startPos));
                   seq.Append(t.DOLocalRotate(startPos, duration).SetEase(ease));
                   seq.SetLoops(-1);
           }
