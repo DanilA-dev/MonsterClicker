@@ -11,10 +11,11 @@ public enum BaffState
     CoolDown
 }
 
-public abstract class ABaff : MonoBehaviour, IClickable
+public abstract class ABaff : ASpawnObject, IClickable
 {
 
     [SerializeField] protected BaffParams baffParams;
+    [SerializeField] private UnityEvent OnReincarnation;
     [SerializeField] private List<BaffEvent> baffEvents = new List<BaffEvent>();
 
 
@@ -46,6 +47,8 @@ public abstract class ABaff : MonoBehaviour, IClickable
 
     private void OnEnable()
     {
+        OnReincarnation?.Invoke();
+        state = BaffState.Ready;
         OnStateEnter += ABaff_OnStateEnter;
     }
 
@@ -69,6 +72,8 @@ public abstract class ABaff : MonoBehaviour, IClickable
     {
         //
     }
+
+    public abstract void OnMouseDown();
 
 
     protected virtual IEnumerator ActivateRoutine(float time)

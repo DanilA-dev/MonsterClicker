@@ -28,7 +28,6 @@ public class HealthSystem
         if (maxHealth <= 0)
         {
             deathAction?.Invoke();
-           // Death(mono);
             SetDefaultHealth();
         }
 

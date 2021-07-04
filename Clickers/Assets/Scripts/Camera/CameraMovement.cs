@@ -4,58 +4,61 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    [SerializeField] private Camera cam;
-    [SerializeField] private SimpleTweenAnimation animations = new SimpleTweenAnimation();
 
     [SerializeField] private float borderTemp;
     [SerializeField] private float speed;
 
-    private Vector3 startPos;
-    private Quaternion startRot;
+    [SerializeField] private Vector3 startPos;
 
-    private void Reset()
-    {
-        startPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        startRot = new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z , 0f);
-    }
+    [SerializeField] private Vector2 limitX;
+    [SerializeField] private Vector2 limitZ;
+
+
+    private Vector3 camPos;
 
 
     private void Start()
     {
         transform.position = startPos;
-        transform.rotation = startRot;
     }
 
     private void LateUpdate()
     {
-        CameraDrag();
+        camPos = transform.position;
+
+        Movement();
     }
 
   
 
-    private void CameraDrag()
+    private void Movement()
     {
         if(Input.mousePosition.y >= Screen.height - borderTemp)
         {
-            Move(Vector3.forward);
+            camPos.z += speed * Time.deltaTime;
         }
         else if(Input.mousePosition.y <= borderTemp)
         {
-            Move(Vector3.back);
+            camPos.z -= speed * Time.deltaTime;
         }
         else if(Input.mousePosition.x >= Screen.width - borderTemp)
         {
-            Move(Vector3.right);
+            camPos.x += speed * Time.deltaTime;
         }
         else if(Input.mousePosition.x <= borderTemp)
         {
-            Move(Vector3.left);
+            camPos.x -= speed * Time.deltaTime;
         }
+
+        Clamp();
     }
 
-    private void Move(Vector3 moveDir)
+    private void Clamp()
     {
-        transform.Translate(moveDir * speed * Time.deltaTime, Space.World);
+        camPos.x = Mathf.Clamp(camPos.x, limitX.x, limitX.y);
+        camPos.z = Mathf.Clamp(camPos.z, limitZ.x, limitZ.y);
+        transform.position = camPos;
     }
+   
 
 }

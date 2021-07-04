@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using DG.Tweening;
 public class CameraAnimation : MonoBehaviour
 {
     [SerializeField] private List<SimpleTweenAnimation> animations = new List<SimpleTweenAnimation>();
@@ -15,5 +15,10 @@ public class CameraAnimation : MonoBehaviour
                 a.Animate();
             }
         }
+    }
+
+    public void KillTween()
+    {
+        DOTween.Clear();
     }
 }

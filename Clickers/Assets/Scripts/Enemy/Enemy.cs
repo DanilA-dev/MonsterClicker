@@ -5,13 +5,15 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Collider))]
-public  class Enemy : MonoBehaviour, IDestroyable, IClickable
+public  class Enemy : ASpawnObject, IDestroyable, IClickable
 {
     [Header("Enemy Settings")]
     [SerializeField] private HealthSystem health;
     [SerializeField] private int scoreForKill;
     [SerializeField] private int defaultDamageTap = 10;
     [SerializeField] private bool isClickable;
+
+    [SerializeField] private UnityEvent OnReincarnation;
 
     public bool IsClickable { get => isClickable; set => isClickable = value; }
 
@@ -21,6 +23,7 @@ public  class Enemy : MonoBehaviour, IDestroyable, IClickable
 
     private void OnEnable()
     {
+        OnReincarnation?.Invoke();
         OnEnemyDie += Destroy;
     }
 

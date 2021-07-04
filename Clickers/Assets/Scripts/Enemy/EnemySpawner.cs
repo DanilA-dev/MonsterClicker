@@ -2,51 +2,66 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySpawner : MonoBehaviour
+public class EnemySpawner : ASpawner
 {
-    [SerializeField] private float spawnTime;
-    [SerializeField] private bool AutoExpandable;
-    [SerializeField] private int quantityInScene;
-    [SerializeField] private Enemy prefab;
+
+    [SerializeField] private EnemySpawnerBase EnemySpawnBase;
 
 
-    [Header("Spawn positions")] 
-    [SerializeField] private float minX;
-    [SerializeField] private float maxX;
-    [SerializeField] private float minZ;
-    [SerializeField] private float maxZ;
 
-
-    private EnemySpawnerBase spawnBase;
-    private ObjectPooler<Enemy> enemyPooler;
-
-    private void Start()
+    private void OnEnable()
     {
-        spawnBase = GetComponentInParent<EnemySpawnerBase>();
-        InitPooler();
+        DisableSpawnerBaff.OnSpawnerDisable += DisableSpawnerBaff_OnSpawnerDisable;
+    }
+
+
+    private void OnDisable()
+    {
+        DisableSpawnerBaff.OnSpawnerDisable -= DisableSpawnerBaff_OnSpawnerDisable;
+    }
+
+    protected override void Start()
+    {
+        base.Start();
         StartSpawn();
     }
 
-    public void StartSpawn()
+
+    private void DisableSpawnerBaff_OnSpawnerDisable(bool baffIsEnabled)
     {
-        StartCoroutine(SpawnRoutine());
+        switch(baffIsEnabled)
+        {
+            case true:
+                StopAllCoroutines();
+                    break;
+            case false:
+                StartSpawn();
+                break;
+        }
     }
 
-    private IEnumerator SpawnRoutine()
+    
+
+    public override void StartSpawn()
     {
-        yield return new WaitForSeconds(spawnTime);
-        var newActiveEnemy =  enemyPooler.GetFreeObject();
-        spawnBase.Add(newActiveEnemy);
-        newActiveEnemy.transform.position = Extensions.GetRandomPos(minX, maxX, minZ, maxZ);
-        spawnTime -= 0.01f;
+        StartCoroutine(SpawnRoutine(spawnerParams.SpawnTime));
+    }
+
+    protected override IEnumerator SpawnRoutine(float time)
+    {
+        yield return new WaitForSeconds(time);
+        SpawnEnemy();
+        spawnerParams.SpawnTime -= 0.1f;
         StartSpawn();
     }
 
-   private void InitPooler()
+    private void SpawnEnemy()
     {
-        enemyPooler = new ObjectPooler<Enemy>(prefab, this.transform);
-        enemyPooler.AutoExpand = AutoExpandable;
-        enemyPooler.CreatePool(quantityInScene);
-    }
+        var newFreeObject = objectPooler.GetFreeObject();
+        Enemy newEnemy = newFreeObject.GetComponent<Enemy>();
 
+        newEnemy.IsClickable = true;
+        EnemySpawnBase.Add(newEnemy);
+        newEnemy.transform.position = Extensions.GetRandomPos(spawnerParams.MinX, spawnerParams.MaxX, spawnerParams.MinZ, spawnerParams.MaxZ);
+    }
 }

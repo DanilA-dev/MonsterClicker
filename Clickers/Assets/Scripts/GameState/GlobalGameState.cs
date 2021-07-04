@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using System;
-
+using UnityEngine.SceneManagement;
 public enum GameState : int
 {
    Start = 0,
@@ -56,6 +56,12 @@ public class GlobalGameState : MonoBehaviour
         }
 
     }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
 
 
     #region STATE CHANGERS
