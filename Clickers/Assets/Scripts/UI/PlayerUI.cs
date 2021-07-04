@@ -9,6 +9,7 @@ public class PlayerUI : MonoBehaviour
 {
     [SerializeField] private TMP_Text enemiesCountText;
     [SerializeField] private TMP_Text scoreText;
+    [SerializeField] private TMP_Text maxScoreText;
 
     [SerializeField] private TMP_Text disabledSpawnText;
 
@@ -27,6 +28,7 @@ public class PlayerUI : MonoBehaviour
         EnemySpawnerBase.OnEnemiesCountChanged -= EnemySpawnerBase_OnEnemiesCountChanged;
         DisableSpawnerBaff.OnSpawnerDisable -= DisableSpawnerBaff_OnSpawnerDisable;
         ScoreSystem.OnScoreChanged -= ScoreSystem_OnScoreChanged;
+
     }
 
 
@@ -52,6 +54,7 @@ public class PlayerUI : MonoBehaviour
     {
         scoreText.text = "Score : " + score; 
     }
+
 
     private void DisableSpawnerBaff_OnSpawnerDisable(bool isBaffEnabled)
     {

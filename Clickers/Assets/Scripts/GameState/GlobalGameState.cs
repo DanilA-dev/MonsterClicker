@@ -32,6 +32,11 @@ public class GlobalGameState : MonoBehaviour
     private event Action<GameState> OnStateEnter;
     private GameState gameState;
 
+    private void Start()
+    {
+        ScoreSystem.ResetScore();
+    }
+
     private void OnEnable()
     {
         OnStateEnter += GlobalGameState_OnStateEnter;
